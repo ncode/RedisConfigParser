@@ -26,6 +26,10 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
                 for option, value in config[section].iteritems():
                     self.set(section, option, value)
 
+    def migrate(self, configfile, namespace, server='127.0.0.1'):
+        self.readfp(open(configfile))
+        self.write(namespace, server)
+
     def write(self, namespace, server='127.0.0.1'):
         if not self.__is_connected__:
             self.connect(server)
@@ -35,6 +39,5 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
             config.update({section: {}})
             for option, value in self.items(section):
                 config[section].update({option: value})
-
         self.redis.set(namespace, simplejson.dumps(config))
 
