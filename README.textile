@@ -2,11 +2,11 @@ h1. RedisConfigParser
 
 A simple way to use redis as backend for python ConfigParser
 
-h2. requirements
+h2. Requirements:
 
 h4. redis-py
 
-Usage:
+h2. Usage:
 
 import RedisConfigParser
 config = RedisConfigParser.RedisConfigParser()
