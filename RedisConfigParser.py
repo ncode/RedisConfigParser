@@ -22,7 +22,8 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
         else:
             config = simplejson.loads(data)
             for section in config:
-                self.add_section(section)
+                if not self.has_section(section): 
+                    self.add_section(section)
                 for option, value in config[section].iteritems():
                     self.set(section, option, value)
 
