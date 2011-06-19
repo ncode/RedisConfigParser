@@ -13,7 +13,7 @@ A simple way to use redis as backend for python ConfigParser
     >>> config = RedisConfigParser.RedisConfigParser()
     >>> config.connect('server.example.org')
 
-### Migrating from a oldconfig.cfg to redis
+### Migrating from an oldconfig.cfg to redis
     >>> config.migrate('oldconfig.cfg', 'REDIS::CONFIG')
 
 ### Adding sections/options and writing to redis
