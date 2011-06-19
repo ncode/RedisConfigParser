@@ -16,7 +16,7 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
         ConfigParser.RawConfigParser.__init__(self)
         self._raw_write = getattr(ConfigParser.RawConfigParser, 'write')
 
-    def connect(self, server='127.0.0.1', port=6379 db=0):
+    def connect(self, server='127.0.0.1', port=6379 db=6):
         self.redis = redis.Redis(server, port, db)
         self.__is_connected__ = True
 
@@ -31,7 +31,7 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
 
     def write(self, namespace):
         if not self.__is_connected__:
-            self.connect(server)
+            self.connect()
 
         config = io.BytesIO()
         self._raw_write(self, config)
