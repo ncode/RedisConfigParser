@@ -7,6 +7,11 @@ A simple way to use redis as backend for python ConfigParser
 * redis-py - http://github.com/andymccurdy/redis-py
 * simplejson - http://github.com/simplejson/simplejson
 
+## Install:
+
+    $ python setup.py build
+    $ python setup.py install
+
 ## Usage:
 ### Connecting to redis:
     >>> import RedisConfigParser
