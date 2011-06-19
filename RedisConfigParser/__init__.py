@@ -1,4 +1,4 @@
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 VERSION = tuple(map(int, __version__.split('.')))
 __all__ = ['RedisConfigParser']
 __author__ = 'Juliano Martinez <juliano@martinez.io>'
@@ -37,4 +37,3 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
         self._raw_write(self, config)
         config.seek(0)
         self.redis.set(namespace, simplejson.dumps(config.read()))
-
