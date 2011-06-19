@@ -1,7 +1,8 @@
-#!/usr/bin/python
+__version__ = '0.0.1'
+VERSION = tuple(map(int, __version__.split('.')))
+__all__ = ['RedisConfigParser']
+__author__ = 'Juliano Martinez <juliano@martinez.io>'
 
-import os
-import sys
 import redis
 import simplejson
 import ConfigParser
