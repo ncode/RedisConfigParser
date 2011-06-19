@@ -4,11 +4,9 @@ A simple way to use redis as backend for python ConfigParser
 
 h2. Requirements:
 
-h4. redis-py 
-http://github.com/andymccurdy/redis-py
-
-h4. simplejson
-http://github.com/simplejson/simplejson
+h5. 
+redis-py - http://github.com/andymccurdy/redis-py
+simplejson - http://github.com/simplejson/simplejson
 
 h2. Usage:
 
