@@ -3,6 +3,7 @@ VERSION = tuple(map(int, __version__.split('.')))
 __all__ = ['RedisConfigParser']
 __author__ = 'Juliano Martinez <juliano@martinez.io>'
 
+import io
 import redis
 import simplejson
 import ConfigParser
@@ -11,35 +12,29 @@ class RedisConfigParser(ConfigParser.RawConfigParser):
 
     __is_connected__ = False
 
-    def connect(self, server):
-        self.redis = redis.Redis(server)
+    def __init__(self):
+        ConfigParser.RawConfigParser.__init__(self)
+        self._raw_write = getattr(ConfigParser.RawConfigParser, 'write')
+
+    def connect(self, server='127.0.0.1', port=6379 db=0):
+        self.redis = redis.Redis(server, port, db)
         self.__is_connected__ = True
 
-    def read(self, namespace, server='127.0.0.1'):
-        self.connect(server)
-        data = self.redis.get(namespace)
-        if data == None:
-            self.data = {}
-        else:
-            config = simplejson.loads(data)
-            for section in config:
-                if not self.has_section(section): 
-                    self.add_section(section)
-                for option, value in config[section].iteritems():
-                    self.set(section, option, value)
+    def read(self, namespace):
+        if not self.__is_connected__:
+            self.connect()
+        self.readfp(io.BytesIO(simplejson.loads(self.redis.get(namespace))))
 
-    def migrate(self, configfile, namespace, server='127.0.0.1'):
+    def migrate(self, configfile, namespace):
         self.readfp(open(configfile))
         self.write(namespace, server)
 
-    def write(self, namespace, server='127.0.0.1'):
+    def write(self, namespace):
         if not self.__is_connected__:
             self.connect(server)
 
-        config = {}
-        for section in self.sections():
-            config.update({section: {}})
-            for option, value in self.items(section):
-                config[section].update({option: value})
-        self.redis.set(namespace, simplejson.dumps(config))
+        config = io.BytesIO()
+        self._raw_write(self, config)
+        config.seek(0)
+        self.redis.set(namespace, simplejson.dumps(config.read()))
 
